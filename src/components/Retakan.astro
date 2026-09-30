@@ -1,0 +1,112 @@
+---
+// Retak yang disuntik: satu-satunya animasi situs (kelas .a-* ada di global.css).
+import { lebar, jalur } from '../lib/retak';
+import type { Pt } from '../lib/retak';
+
+interface Tanda {
+  at: Pt;
+  dx: number;
+  dy: number;
+  id: string;
+  ukur: string;
+  kelas?: string;
+}
+interface Props {
+  awal: string; // prefiks id mask, unik per pemakaian
+  w: number;
+  h: number;
+  garis: Pt[][];
+  lebarMaks: number[];
+  packer: Pt[];
+  tanda: Tanda[];
+  s?: number; // skala pelat, packer, dan lebar reveal
+  aspek?: string;
+  class?: string;
+}
+const { awal, w, h, garis, lebarMaks, packer, tanda, s = 1, aspek = 'xMidYMid slice', class: kelas } = Astro.props;
+---
+
+<svg
+  class:list={['pointer-events-none absolute z-10', kelas]}
+  viewBox={`0 0 ${w} ${h}`}
+  preserveAspectRatio={aspek}
+  aria-hidden="true"
+>
+  <defs>
+    {
+      garis.map((p, i) => (
+        <>
+          <mask id={`${awal}r${i}`} maskUnits="userSpaceOnUse" x="0" y="0" width={w} height={h}>
+            <path
+              d={jalur(p)}
+              pathLength="1"
+              fill="none"
+              stroke="#fff"
+              stroke-width={70 * s}
+              stroke-linejoin="round"
+              class="a-retak"
+              style={`--tunda:${i * 0.45}s`}
+            />
+          </mask>
+          <mask id={`${awal}s${i}`} maskUnits="userSpaceOnUse" x="0" y="0" width={w} height={h}>
+            <path
+              d={jalur([...p].reverse())}
+              pathLength="1"
+              fill="none"
+              stroke="#fff"
+              stroke-width={70 * s}
+              stroke-linejoin="round"
+              class="a-resin"
+              style={`--tunda:${i * 0.2}s`}
+            />
+          </mask>
+        </>
+      ))
+    }
+  </defs>
+  {
+    garis.map((p, i) => (
+      <>
+        <path d={lebar(p, lebarMaks[i] * 1.9, i + 3)} style="fill:var(--color-beton);opacity:.6" mask={`url(#${awal}r${i})`} />
+        <path d={lebar(p, lebarMaks[i], i + 3)} style="fill:var(--color-beton-dalam)" mask={`url(#${awal}r${i})`} />
+        <path d={lebar(p, lebarMaks[i] * 0.55, i + 3)} style="fill:var(--color-resin)" mask={`url(#${awal}s${i})`} />
+      </>
+    ))
+  }
+  {
+    packer.map(([x, y], i) => (
+      <g class="a-packer" style={`--tunda:${i * 0.15}s`}>
+        <circle
+          cx={x}
+          cy={y}
+          r={11 * s}
+          stroke-width={3 * s}
+          style="fill:var(--color-beton-dalam);stroke:var(--color-semen)"
+        />
+        <circle cx={x} cy={y} r={3.5 * s} style="fill:var(--color-resin)" />
+      </g>
+    ))
+  }
+  {
+    tanda.map(({ at: [x, y], dx, dy, id, ukur, kelas: k }) => {
+      const px = x + dx + 10 * s;
+      const py = y + dy;
+      return (
+        <g class:list={['a-ukur', k]}>
+          <path d={`M${x} ${y}L${x + dx} ${py + 22 * s}`} stroke-width={2 * s} style="stroke:var(--color-beton-dalam)" />
+          <circle cx={x} cy={y} r={4 * s} style="fill:var(--color-beton-dalam)" />
+          <path
+            d={`M${px} ${py}h${140 * s}v${34 * s}l${-10 * s} ${10 * s}h${-140 * s}v${-34 * s}z`}
+            style={`fill:var(--color-semen);stroke:var(--color-beton-dalam);stroke-width:${2 * s}`}
+          />
+          <text x={px + 12 * s} y={py + 30 * s} style={`font:900 ${24 * s}px var(--font-stensil);fill:var(--color-beton-dalam)`}>
+            {id}
+          </text>
+          <text x={px + 68 * s} y={py + 29 * s} style={`font:600 ${16 * s}px var(--font-sans);fill:var(--color-beton-tua)`}>
+            {ukur}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>

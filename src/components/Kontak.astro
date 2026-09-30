@@ -1,0 +1,58 @@
+---
+import Bab from './Bab.astro';
+import { tampil, kontak, wa, pesanInspeksi } from '../data/site';
+
+const siapkan = [
+  'Foto retak dari dekat, dengan penggaris atau koin di sampingnya sebagai pembanding.',
+  'Foto dari jauh, supaya terlihat retak itu ada di kolom, balok, pelat, atau dinding.',
+  'Fungsi ruang dan perkiraan umur bangunan.',
+  'Apakah ada rembesan air, noda karat, atau bunyi kopong saat permukaan diketuk.',
+];
+---
+
+<Bab id="kontak" seed={9} tema="resin" garis={false}>
+  <h2 class="tipe-judul">Foto retaknya. Kirim ke kami.</h2>
+
+  <div class="mt-16 grid gap-x-16 gap-y-16 md:mt-24 lg:grid-cols-12">
+    <div class="lg:col-span-6">
+      <p class="max-w-[46ch] text-[1.25rem] leading-snug">
+        Kirim foto retak dan lokasinya lewat WhatsApp. Kami membalas dengan jadwal inspeksi, bukan brosur.
+      </p>
+      <h3 class="mt-12 font-display text-4xl font-extrabold leading-none">Yang perlu disiapkan</h3>
+      <ul class="mt-5 max-w-[52ch] space-y-3">
+        {
+          siapkan.map((s) => (
+            <li class="flex gap-3 before:mt-2.5 before:size-2.5 before:shrink-0 before:bg-beton-dalam">{s}</li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="lg:col-span-6">
+      <dl class="border-t-4 border-beton-dalam">
+        <div class="grid gap-1 border-b border-beton-dalam/40 py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="font-semibold">WhatsApp</dt>
+          <dd class="font-display text-4xl font-bold leading-none md:text-5xl">
+            <a href={wa(pesanInspeksi)} class="underline decoration-4 underline-offset-4">{tampil.whatsapp}</a>
+          </dd>
+        </div>
+        <div class="grid gap-1 border-b border-beton-dalam/40 py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="font-semibold">Email</dt>
+          <dd class="font-display text-3xl font-bold leading-none md:text-4xl">
+            {kontak.email ? <a href={`mailto:${kontak.email}`} class="underline decoration-4 underline-offset-4">{tampil.email}</a> : tampil.email}
+          </dd>
+        </div>
+        <div class="grid gap-1 border-b border-beton-dalam/40 py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="font-semibold">Kantor</dt>
+          <dd class="text-[1.25rem] leading-snug">{tampil.alamat}</dd>
+        </div>
+      </dl>
+      <a
+        href={wa(pesanInspeksi)}
+        class="tombol mt-10"
+        style="--tb-bg:var(--color-beton-dalam);--tb-fg:var(--color-resin);--tb-bg-h:var(--color-semen);--tb-fg-h:var(--color-beton-dalam)"
+        >Kirim lewat WhatsApp</a
+      >
+    </div>
+  </div>
+</Bab>

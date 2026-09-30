@@ -1,0 +1,111 @@
+---
+import Bab from './Bab.astro';
+import PetaRetak from './PetaRetak.astro';
+import { langkah, beritaAcara } from '../data/site';
+
+// Volume teoretis (liter) = panjang (m) × lebar (mm) × dalam (mm) / 1000
+const baris = beritaAcara.map((r) => {
+  const teori = (r.panjang * r.lebar * r.dalam) / 1000;
+  return { ...r, teori, selisih: ((r.terpakai - teori) / teori) * 100 };
+});
+const jumlah = baris.reduce((a, r) => ({ teori: a.teori + r.teori, terpakai: a.terpakai + r.terpakai }), { teori: 0, terpakai: 0 });
+const selisihJumlah = ((jumlah.terpakai - jumlah.teori) / jumlah.teori) * 100;
+const angka = (n: number, d = 2) => n.toLocaleString('id-ID', { minimumFractionDigits: d, maximumFractionDigits: d });
+const persen = (n: number) => `${n >= 0 ? '+' : '−'}${Math.abs(Math.round(n))}%`;
+---
+
+<Bab id="cara-kerja" seed={4} tema="terang">
+  <div class="grid gap-x-12 gap-y-6 lg:grid-cols-12 lg:items-end">
+    <h2 class="tipe-judul lg:col-span-7">Peta retak</h2>
+    <p class="max-w-[46ch] lg:col-span-5">
+      Cara kerja yang sama di setiap proyek, dari retak sehalus 0,05 mm sampai patahan selebar jari. Yang membedakan
+      bukan alatnya, melainkan bahwa setiap langkah meninggalkan catatan.
+    </p>
+  </div>
+
+  <div class="mt-16 grid grid-cols-1 gap-x-12 gap-y-16 md:mt-24 xl:grid-cols-12">
+    <ol class="xl:col-span-5">
+      {
+        langkah.map((l, i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-x-5 border-t-2 border-beton-tua/50 py-6 xl:py-8">
+            <span class="potong grid size-12 place-items-center bg-resin font-display text-3xl font-extrabold text-beton-dalam">
+              {i + 1}
+            </span>
+            <div>
+              <h3 class="font-display text-3xl font-bold leading-none">{l.judul}</h3>
+              <p class="mt-2 max-w-[52ch]">{l.isi}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="grid min-w-0 grid-cols-1 gap-10 xl:col-span-7">
+      <PetaRetak />
+      <div class="potong relative min-w-0 bg-semen p-6 md:p-10">
+        <p
+          class="absolute right-5 top-5 rotate-[-7deg] border-4 border-beton-tua px-3 py-1 font-display text-3xl font-extrabold uppercase leading-none md:right-8 md:top-8"
+        >
+          Contoh
+        </p>
+        <h3 class="max-w-[12ch] font-display text-4xl font-extrabold leading-[0.95] md:text-5xl">
+          Berita acara injeksi epoxy
+        </h3>
+        <p class="mt-3 max-w-[46ch] text-kecil">
+          Lantai gudang, satu paket pekerjaan. Angka di bawah hanya contoh format, bukan hasil proyek tertentu.
+        </p>
+
+        <div class="mt-8 overflow-x-auto" tabindex="0" role="region" aria-label="Contoh tabel berita acara">
+          <table class="w-full text-kecil tabular-nums md:min-w-[36rem]">
+            <thead>
+              <tr class="border-b-4 border-beton-tua text-right align-bottom">
+                <th class="py-2 pr-3 text-left font-semibold">Retak</th>
+                <th class="px-3 py-2 font-semibold max-md:hidden">Panjang (m)</th>
+                <th class="px-3 py-2 font-semibold max-md:hidden">Lebar (mm)</th>
+                <th class="px-3 py-2 font-semibold max-md:hidden">Dalam (mm)</th>
+                <th class="px-3 py-2 font-semibold">Teoretis (L)</th>
+                <th class="px-3 py-2 font-semibold">Terpakai (L)</th>
+                <th class="py-2 pl-3 font-semibold">Selisih</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                baris.map((r) => (
+                  <tr class="border-b border-beton-tua/40 text-right">
+                    <th scope="row" class="py-3 pr-3 text-left font-stensil text-xl font-black">
+                      {r.id}
+                      <span class="block font-sans text-kecil font-normal md:hidden">
+                        {angka(r.panjang)} m × {angka(r.lebar)} × {r.dalam} mm
+                      </span>
+                    </th>
+                    <td class="px-3 py-3 max-md:hidden">{angka(r.panjang)}</td>
+                    <td class="px-3 py-3 max-md:hidden">{angka(r.lebar)}</td>
+                    <td class="px-3 py-3 max-md:hidden">{r.dalam}</td>
+                    <td class="px-3 py-3">{angka(r.teori)}</td>
+                    <td class="px-3 py-3">{angka(r.terpakai)}</td>
+                    <td class="py-3 pl-3 font-semibold">{persen(r.selisih)}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+            <tfoot>
+              <tr class="border-t-4 border-beton-tua text-right font-semibold">
+                <th scope="row" class="py-3 pr-3 text-left">Jumlah</th>
+                <td colspan="3" class="max-md:hidden"></td>
+                <td class="px-3 py-3">{angka(jumlah.teori)}</td>
+                <td class="px-3 py-3">{angka(jumlah.terpakai)}</td>
+                <td class="py-3 pl-3">{persen(selisihJumlah)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <p class="mt-6 max-w-[62ch] text-kecil">
+          Volume teoretis = panjang × lebar × dalam. Selisih di atas nol wajar: resin tersisa di packer dan selang, dan
+          meresap ke pori beton. Selisih negatif berarti retak belum terisi penuh, dan itulah yang dicari berita acara
+          ini.
+        </p>
+      </div>
+    </div>
+  </div>
+</Bab>

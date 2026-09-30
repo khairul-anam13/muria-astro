@@ -1,0 +1,26 @@
+---
+import Bab from './Bab.astro';
+import { usaha, menu } from '../data/site';
+
+const tahun = new Date().getFullYear();
+---
+
+<footer>
+  <Bab id="penutup" seed={10} tema="dalam" rapat>
+    <div class="grid gap-x-12 gap-y-10 lg:grid-cols-12">
+      <div class="lg:col-span-6">
+        <p class="font-stensil text-6xl font-black leading-none">MURIA</p>
+        <p class="mt-3 font-display text-2xl font-bold">{usaha.nama}</p>
+        <p class="mt-1 text-kabut">{usaha.bidang}. {usaha.kota}, {usaha.provinsi}.</p>
+      </div>
+      <nav aria-label="Ringkasan" class="lg:col-span-3">
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-1 text-kecil font-semibold lg:grid-cols-1">
+          {menu.map((m) => <li><a href={`#${m.id}`} class="inline-block py-1 hover:text-resin">{m.label}</a></li>)}
+        </ul>
+      </nav>
+      <p class="text-kecil text-kabut lg:col-span-3">
+        © {usaha.berdiri}{tahun > usaha.berdiri ? `–${tahun}` : ''} {usaha.nama}. Berdiri di {usaha.kota} pada {usaha.berdiri}.
+      </p>
+    </div>
+  </Bab>
+</footer>

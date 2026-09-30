@@ -1,0 +1,38 @@
+---
+import { menu, wa, pesanInspeksi } from '../data/site';
+---
+
+<header class="sticky top-0 z-50 bg-beton-dalam text-semen" data-gelap>
+  <div class="mx-auto flex h-14 max-w-[1600px] items-center gap-5 px-(--gutter)">
+    <a href="#beranda" class="flex items-baseline gap-3" aria-label="CV Muria Struktura Teknik, ke awal halaman">
+      <span class="font-display text-[2rem] font-extrabold leading-none">MURIA</span>
+      <span class="hidden font-display text-xl font-bold leading-none text-kabut sm:inline">Struktura Teknik</span>
+    </a>
+    <nav aria-label="Utama" class="ml-auto hidden gap-7 text-kecil font-semibold xl:flex">
+      {menu.map((m) => <a href={`#${m.id}`} class="py-2 hover:text-resin">{m.label}</a>)}
+    </nav>
+    <a href={wa(pesanInspeksi)} class="tombol ml-auto !min-h-10 !px-4 !text-xl xl:ml-0">Minta inspeksi</a>
+    <details class="xl:hidden">
+      <summary class="grid size-11 place-items-center" aria-label="Menu">
+        <svg viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M3 7h18M3 12h18M3 17h18" />
+        </svg>
+      </summary>
+      <nav aria-label="Menu ponsel" class="fixed inset-x-0 top-14 bg-beton-dalam px-(--gutter) pb-8 pt-2">
+        {
+          menu.map((m) => (
+            <a href={`#${m.id}`} class="block border-b border-kabut/25 py-3 font-display text-4xl font-bold">
+              {m.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('header details a').forEach((a) =>
+    a.addEventListener('click', () => a.closest('details')?.removeAttribute('open')),
+  );
+</script>

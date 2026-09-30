@@ -1,0 +1,107 @@
+---
+import { usaha, wa, pesanInspeksi } from '../data/site';
+import { retak } from '../lib/retak';
+import type { Pt } from '../lib/retak';
+import Retakan from './Retakan.astro';
+
+// Desktop (kanvas 1440x900): retak utama turun dari tepi atas menembus huruf wordmark; tiga cabang menyusul.
+const utama = retak(11, [716, -30], [800, 940], 15, 26);
+const cabang: Pt[][] = [
+  retak(23, utama[4], [890, utama[4][1] + 180], 5, 14),
+  retak(31, utama[8], [615, utama[8][1] + 150], 5, 14),
+  retak(47, utama[11], [880, utama[11][1] + 130], 4, 11),
+];
+const tandaD = [
+  { at: utama[5], dx: 26, dy: -58, id: 'R-01', ukur: '0,3 mm' },
+  { at: cabang[0][3], dx: 20, dy: -12, id: 'R-02', ukur: '0,12 mm' },
+  { at: utama[11], dx: 0, dy: -24, id: 'R-03', ukur: '0,45 mm', kelas: 'max-xl:hidden' },
+];
+
+// Ponsel dan tablet (kanvas 390x250): retak pendek, hanya melintasi wordmark supaya tidak menimpa teks.
+const um = retak(17, [214, -10], [232, 258], 8, 9);
+const cm: Pt[][] = [retak(29, um[3], [318, um[3][1] + 60], 3, 6)];
+const tandaM = [{ at: um[2], dx: 16, dy: -34, id: 'R-01', ukur: '0,3 mm' }];
+
+const kop = [
+  ['Pekerjaan', usaha.bidang],
+  ['Badan usaha', usaha.nama],
+  ['Kantor', `${usaha.kota}, ${usaha.provinsi}`],
+  ['Berdiri', String(usaha.berdiri)],
+  ['Skala proyek', usaha.skala],
+];
+---
+
+<section
+  id="beranda"
+  class="tekstur-papan relative isolate flex min-h-[calc(100svh-3.5rem)] flex-col overflow-hidden bg-beton pb-[calc(var(--amp)+2.5rem)] text-beton-tua"
+>
+  <Retakan
+    awal="d"
+    w={1440}
+    h={900}
+    garis={[utama, ...cabang]}
+    lebarMaks={[11, 6, 5.5, 4.5]}
+    packer={[utama[3], utama[6], utama[9], utama[12]]}
+    tanda={tandaD}
+    class="inset-0 hidden size-full lg:block"
+  />
+  <Retakan
+    awal="m"
+    w={390}
+    h={250}
+    garis={[um, ...cm]}
+    lebarMaks={[6.5, 3.5]}
+    packer={[um[2], um[5]]}
+    tanda={tandaM}
+    s={0.8}
+    aspek="xMidYMin meet"
+    class="inset-x-0 top-0 h-auto w-full lg:hidden"
+  />
+
+  <div class="mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-(--gutter) pt-8 md:pt-10">
+    <div class="monumen-wadah my-auto py-6">
+      <div class="w-fit">
+        <h1
+          class="tipe-monumen select-none bg-beton-dalam bg-clip-text tekstur text-transparent [filter:drop-shadow(0_2px_0_rgb(255_255_255/0.4))]"
+        >
+          Muria<span class="sr-only"> Struktura Teknik, perbaikan beton retak di Gresik</span>
+        </h1>
+        <p
+          class="mt-4 flex justify-between font-display text-[clamp(1.25rem,4.4cqw,4.25rem)] font-extrabold uppercase leading-none"
+          aria-hidden="true"
+        >
+          <span>CV</span><span>Struktura</span><span>Teknik</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="relative z-20 grid items-end gap-x-10 gap-y-10 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <p class="tipe-seru">
+          <span class="block">Retak dipetakan.</span>
+          <span class="block">Resin disuntik.</span>
+          <span class="block">Setiap liter dibukukan.</span>
+        </p>
+        <p class="mt-6 max-w-[54ch]">
+          Perbaikan beton retak, patah, dan rusak, dari sambungan lantai gudang sampai kolom pabrik yang perlu dibalut
+          carbon fiber. Bekerja dari Gresik untuk proyek kecil hingga besar di Jawa Timur.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href={wa(pesanInspeksi)} class="tombol">Minta inspeksi</a>
+          <a href="#cara-kerja" class="font-semibold underline decoration-2 underline-offset-4">Lihat cara kerja</a>
+        </div>
+      </div>
+
+      <dl class="border-t-4 border-beton-tua text-kecil md:col-span-5 lg:col-span-4 lg:col-start-9">
+        {
+          kop.map(([k, v]) => (
+            <div class="grid grid-cols-[6.75rem_1fr] gap-x-4 border-b border-beton-tua/35 py-2.5">
+              <dt>{k}</dt>
+              <dd class="font-semibold">{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

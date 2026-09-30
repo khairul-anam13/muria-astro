@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/big-shoulders-stencil-display/900';
+import '@fontsource/atkinson-hyperlegible-next/400';
+import '@fontsource/atkinson-hyperlegible-next/600';
+import stensil from '@fontsource/big-shoulders-stencil-display/files/big-shoulders-stencil-display-latin-900-normal.woff2?url';
+import display from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
+import teks from '@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-400-normal.woff2?url';
+import { usaha, kontak } from '../data/site';
+
+interface Props {
+  judul: string;
+  deskripsi: string;
+}
+const { judul, deskripsi } = Astro.props;
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: usaha.nama,
+  description: deskripsi,
+  foundingDate: String(usaha.berdiri),
+  address: { '@type': 'PostalAddress', addressLocality: usaha.kota, addressRegion: usaha.provinsi, addressCountry: 'ID' },
+  areaServed: usaha.provinsi,
+  ...(kontak.email && { email: kontak.email }),
+  ...(kontak.whatsapp && { telephone: `+${kontak.whatsapp}` }),
+};
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{judul}</title>
+    <meta name="description" content={deskripsi} />
+    <meta name="theme-color" content="#1d2422" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:title" content={judul} />
+    <meta property="og:description" content={deskripsi} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {[stensil, display, teks].map((f) => <link rel="preload" as="font" type="font/woff2" href={f} crossorigin />)}
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body>
+    <a
+      href="#isi"
+      class="absolute left-2 top-2 z-[60] -translate-y-20 bg-resin px-4 py-2 font-semibold text-beton-dalam focus:translate-y-0"
+      >Lewati ke konten</a
+    >
+    <!-- Pola arsir beton (untuk permukaan gelap dan terang) dan resin, dipakai bersama oleh semua gambar teknik -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="p-beton" width="16" height="16" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="4" r="1" style="fill:var(--color-kabut)"></circle>
+          <circle cx="11" cy="10" r="0.8" style="fill:var(--color-kabut)"></circle>
+          <circle cx="14" cy="3" r="0.6" style="fill:var(--color-kabut)"></circle>
+          <path d="M4.5 14l2.5-3.6L9.5 14z" fill="none" stroke-width="0.7" style="stroke:var(--color-kabut)"></path>
+        </pattern>
+        <pattern id="p-beton-terang" width="16" height="16" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="4" r="1" style="fill:var(--color-debu)"></circle>
+          <circle cx="11" cy="10" r="0.8" style="fill:var(--color-debu)"></circle>
+          <circle cx="14" cy="3" r="0.6" style="fill:var(--color-debu)"></circle>
+          <path d="M4.5 14l2.5-3.6L9.5 14z" fill="none" stroke-width="0.7" style="stroke:var(--color-debu)"></path>
+        </pattern>
+        <pattern id="p-resin" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <path d="M0 0V8" stroke-width="3" style="stroke:var(--color-resin)"></path>
+        </pattern>
+      </defs>
+    </svg>
+    <slot />
+  </body>
+</html>

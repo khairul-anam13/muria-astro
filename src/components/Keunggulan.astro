@@ -1,0 +1,41 @@
+---
+import Bab from './Bab.astro';
+import { janji } from '../data/site';
+---
+
+<Bab id="keunggulan" seed={5} tema="gelap">
+  <div class="grid gap-x-12 gap-y-6 lg:grid-cols-12 lg:items-end">
+    <h2 class="tipe-bab max-w-[16ch] lg:col-span-8">Janji yang bisa Anda periksa</h2>
+    <p class="max-w-[42ch] lg:col-span-4">
+      Lima keunggulan kami ditulis sebagai janji, lengkap dengan cara membuktikannya sebelum Anda membayar.
+    </p>
+  </div>
+
+  <div class="mt-12 md:mt-16">
+    <div class="hidden grid-cols-12 gap-x-10 pb-3 text-kecil text-kabut lg:grid">
+      <p class="col-span-3">Keunggulan</p>
+      <p class="col-span-5">Janji kami</p>
+      <p class="col-span-4">Cara Anda memeriksanya</p>
+    </div>
+    <ul>
+      {
+        janji.map((j) => (
+          <li class="grid gap-x-10 gap-y-3 border-t-2 border-kabut/40 py-8 lg:grid-cols-12">
+            <h3 class="font-display text-[clamp(2rem,3vw,2.75rem)] font-bold leading-[0.95] lg:col-span-3">{j.judul}</h3>
+            <p class="lg:col-span-5">{j.janji}</p>
+            <p class="flex gap-3 lg:col-span-4">
+              <svg viewBox="0 0 24 24" class="mt-1 size-5 shrink-0" fill="none" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" class="stroke-resin" stroke-width="3" />
+                <path d="M6.5 12.5l4 4 7.5-9" class="stroke-resin" stroke-width="3" />
+              </svg>
+              <span>
+                <span class="text-kabut lg:hidden">Cara memeriksa: </span>
+                {j.periksa}
+              </span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Bab>

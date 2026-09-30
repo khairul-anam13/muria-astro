@@ -1,0 +1,37 @@
+---
+// Satu simpul bagan organisasi; garisnya tebal seperti balok. Rekursif untuk anak.
+import Simpul from './Simpul.astro';
+
+interface Node {
+  nama: string;
+  tugas: string;
+  anak?: Node[];
+}
+interface Props {
+  n: Node;
+  akar?: boolean;
+}
+const { n, akar = false } = Astro.props;
+---
+
+<li
+  class:list={[
+    'relative',
+    !akar &&
+      'before:absolute before:-left-6 before:top-0 before:h-[1.7rem] before:w-6 before:border-b-4 before:border-l-4 before:border-beton-tua [&:not(:last-child)]:after:absolute [&:not(:last-child)]:after:-left-6 [&:not(:last-child)]:after:top-0 [&:not(:last-child)]:after:h-full [&:not(:last-child)]:after:w-1 [&:not(:last-child)]:after:bg-beton-tua',
+  ]}
+>
+  <div class="py-3">
+    <p class="font-display text-3xl font-bold leading-none">{n.nama}</p>
+    <p class="mt-1 max-w-[46ch] text-kecil">{n.tugas}</p>
+  </div>
+  {
+    n.anak && (
+      <ol class="ml-3 pl-6">
+        {n.anak.map((a) => (
+          <Simpul n={a} />
+        ))}
+      </ol>
+    )
+  }
+</li>

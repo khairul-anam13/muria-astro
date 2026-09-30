@@ -1,0 +1,42 @@
+---
+import Bab from './Bab.astro';
+import Diagram from './Diagram.astro';
+import { layanan } from '../data/site';
+---
+
+<Bab id="layanan" seed={3} tema="gelap">
+  <div class="grid gap-x-12 gap-y-6 lg:grid-cols-12 lg:items-end">
+    <h2 class="tipe-judul lg:col-span-7">Layanan</h2>
+    <p class="max-w-[46ch] lg:col-span-5">
+      Lima pekerjaan yang kami ambil. Semuanya berawal dari peta retak yang sama, apa pun metode akhirnya.
+    </p>
+  </div>
+
+  <div class="mt-16 md:mt-24">
+    {
+      layanan.map((l) => (
+        <article class="grid gap-x-12 gap-y-8 border-t-2 border-kabut/40 py-12 md:py-16 lg:grid-cols-12">
+          <div class="lg:col-span-7">
+            <h3 class="font-display text-[clamp(2.5rem,5.4vw,5.25rem)] font-extrabold uppercase leading-[0.9]">
+              {l.nama}
+            </h3>
+            <p class="mt-2 text-kecil text-kabut">{l.en}</p>
+            <p class="mt-6 max-w-[58ch]">{l.isi}</p>
+            <dl class="mt-8 grid max-w-[58ch] grid-cols-[6.5rem_1fr] gap-x-4 gap-y-3 text-kecil">
+              <dt class="text-kabut">Bahan</dt>
+              <dd>{l.bahan}</dd>
+              <dt class="text-kabut">Cocok untuk</dt>
+              <dd>{l.untuk}</dd>
+            </dl>
+          </div>
+          <figure class="lg:col-span-5">
+            <div class="border border-kabut/40 bg-beton-dalam/50 p-4">
+              <Diagram nama={l.id as 'perbaikan'} judul={l.gambar} />
+            </div>
+            <figcaption class="mt-3 text-kecil text-kabut">{l.gambar}</figcaption>
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+</Bab>

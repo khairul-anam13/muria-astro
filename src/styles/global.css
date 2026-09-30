@@ -1,0 +1,227 @@
+/* Tailwind v4 tanpa preflight bawaan: preflight menaruh system-ui/Segoe UI di fallback
+   font, dan aturan proyek melarangnya. Reset minimal di bawah menggantikannya. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-display: "Big Shoulders Display", sans-serif;
+  --font-stensil: "Big Shoulders Stencil Display", sans-serif;
+  --font-sans: "Atkinson Hyperlegible Next", sans-serif;
+
+  /* dominan: beton pesisir */
+  --color-beton: #c9ccc4;
+  --color-beton-tua: #2a3230;
+  --color-beton-dalam: #1d2422;
+  /* aksen tunggal: resin epoksi */
+  --color-resin: #f0a30a;
+  /* netral */
+  --color-semen: #e9ebe4;
+  --color-debu: #4a524f;
+  --color-kabut: #aeb4ad;
+
+  /* skala tipe: kontras ekstrem, dari 15px sampai 560px */
+  /* lebar kata MURIA = 2,39em; pas selebar .monumen-wadah, tapi tak lebih tinggi dari 56% layar */
+  --text-monumen: min(calc(100cqw / 2.4), 56svh, 36rem);
+  --text-monumen--line-height: 0.8;
+  --text-judul: clamp(3.25rem, 9.5vw, 9rem);
+  --text-judul--line-height: 0.86;
+  --text-seru: clamp(1.9rem, 3.8vw, 3.5rem);
+  --text-seru--line-height: 1.02;
+  --text-isi: 1.125rem;
+  --text-isi--line-height: 1.6;
+  --text-kecil: 0.9375rem;
+  --text-kecil--line-height: 1.5;
+}
+
+:root {
+  --amp: 22px; /* tinggi tepi patahan antarbagian */
+  --gutter: 1.25rem;
+  --fs-peta: 22px; /* label grafik jangkauan, dalam satuan SVG (skala ponsel ≈ 0,53) */
+  --fs-peta-kecil: 18px;
+
+  /* tekstur beton: bintik halus, bercak besar, pori udara (SVG feTurbulence) */
+  --tx-butir: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='a' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .34 -.06'/%3E%3C/filter%3E%3Cfilter id='b' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .3 -.05'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23a)'/%3E%3Crect width='260' height='260' filter='url(%23b)'/%3E%3C/svg%3E");
+  --tx-bercak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='700'%3E%3Cfilter id='m' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .007' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.1 0 0 0 -.42'/%3E%3C/filter%3E%3Cfilter id='n' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.005 .006' numOctaves='3' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 -1.1 0 0 0 .62'/%3E%3C/filter%3E%3Crect width='900' height='700' filter='url(%23m)' opacity='.3'/%3E%3Crect width='900' height='700' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
+  --tx-pori: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='p' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.11' numOctaves='2' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -22 0 0 0 5.6'/%3E%3C/filter%3E%3Crect width='480' height='480' filter='url(%23p)' opacity='.55'/%3E%3C/svg%3E");
+  /* sambungan papan bekisting: tiga papan per 700px, tinggi tak sama */
+  --tx-papan: linear-gradient(180deg, rgb(255 255 255 / 0.2) 0 2px, transparent 2px 232px, rgb(0 0 0 / 0.2) 232px 233px, rgb(255 255 255 / 0.22) 233px 235px, transparent 235px 418px, rgb(0 0 0 / 0.2) 418px 419px, rgb(255 255 255 / 0.22) 419px 421px, transparent 421px 698px, rgb(0 0 0 / 0.2) 698px 700px);
+  /* lubang pengikat bekisting (tie hole) */
+  --tx-lubang: radial-gradient(circle at 50% 50%, rgb(0 0 0 / 0.55) 0 5px, rgb(0 0 0 / 0.22) 5px 7px, rgb(255 255 255 / 0.3) 7px 9px, transparent 9px);
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --fs-peta: 16px;
+    --fs-peta-kecil: 13px;
+  }
+}
+@media (min-width: 48rem) {
+  :root {
+    --amp: 36px;
+    --gutter: 2.5rem;
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    font-family: var(--font-sans);
+    scroll-padding-top: 4rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-beton-dalam);
+    color: var(--color-beton-tua);
+    font-size: var(--text-isi);
+    line-height: var(--text-isi--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 { font-size: inherit; font-weight: inherit; }
+  a { color: inherit; text-decoration: inherit; }
+  b, strong { font-weight: 700; }
+  img, svg, video { display: block; max-width: 100%; }
+  ol, ul { list-style: none; }
+  table { border-collapse: collapse; }
+  th { font-weight: inherit; text-align: inherit; }
+  button, input, summary { font: inherit; color: inherit; background: none; cursor: pointer; }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  [hidden] { display: none !important; }
+  ::selection { background: var(--color-resin); color: var(--color-beton-dalam); }
+  :focus-visible {
+    outline: 3px solid var(--fokus, var(--color-beton-tua));
+    outline-offset: 3px;
+  }
+  [data-gelap] { --fokus: var(--color-resin); }
+}
+
+/* Permukaan. Warna dasar dari utilitas bg-*, tekstur dari kelas ini. */
+@utility tekstur {
+  background-image: var(--tx-butir), var(--tx-bercak);
+  background-size: 260px 260px, 900px 700px;
+}
+@utility tekstur-halus {
+  background-image: var(--tx-butir);
+  background-size: 260px 260px;
+}
+@utility tekstur-papan {
+  background-image: var(--tx-lubang), var(--tx-papan), var(--tx-butir), var(--tx-pori), var(--tx-bercak);
+  background-size: 380px 350px, 100% 700px, 260px 260px, 480px 480px, 900px 700px;
+  background-position: 140px 90px, 0 0, 0 0, 0 0, 0 0;
+}
+
+/* Potongan 45 derajat: list chamfer bekisting. Satu-satunya bentuk sudut di situs ini. */
+@utility potong {
+  --c: 14px;
+  clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c));
+  &:focus-visible { clip-path: none; }
+}
+
+.monumen-wadah {
+  container-type: inline-size;
+}
+
+/* Tipe */
+@utility tipe-monumen {
+  font-family: var(--font-stensil);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: var(--text-monumen);
+  line-height: var(--text-monumen--line-height);
+  letter-spacing: -0.01em;
+}
+@utility tipe-judul {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--text-judul);
+  line-height: var(--text-judul--line-height);
+  text-wrap: balance;
+}
+@utility tipe-bab {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.4vw, 5rem);
+  line-height: 0.95;
+  text-wrap: balance;
+}
+@utility tipe-seru {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-seru);
+  line-height: var(--text-seru--line-height);
+  text-wrap: balance;
+}
+
+@utility tombol {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.25rem;
+  padding: 0.5rem 1.75rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  background: var(--tb-bg, var(--color-resin));
+  color: var(--tb-fg, var(--color-beton-dalam));
+  --c: 12px;
+  clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c));
+  &:hover { background: var(--tb-bg-h, var(--color-semen)); color: var(--tb-fg-h, var(--color-beton-dalam)); }
+  &:focus-visible { clip-path: none; }
+}
+
+/* Animasi muat halaman: SATU-SATUNYA gerak di situs. Retak merambat (tersendat),
+   packer terpasang, resin naik dari titik terendah, tanda ukur muncul. */
+@keyframes merambat {
+  0% { stroke-dashoffset: 1; }
+  17% { stroke-dashoffset: 0.83; }
+  25% { stroke-dashoffset: 0.83; }
+  50% { stroke-dashoffset: 0.42; }
+  59% { stroke-dashoffset: 0.42; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes isi {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes tampil {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.a-retak {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: merambat 1.5s cubic-bezier(0.45, 0, 0.25, 1) calc(0.3s + var(--tunda, 0s)) forwards;
+}
+.a-resin {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: isi 1.2s cubic-bezier(0.3, 0.6, 0.2, 1) calc(2.2s + var(--tunda, 0s)) forwards;
+}
+.a-packer {
+  opacity: 0;
+  animation: tampil 0.4s ease-out calc(1.9s + var(--tunda, 0s)) forwards;
+}
+.a-ukur {
+  opacity: 0;
+  animation: tampil 0.6s ease-out calc(3.4s + var(--tunda, 0s)) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .a-retak, .a-resin { animation: none; stroke-dashoffset: 0; }
+  .a-packer, .a-ukur { animation: none; opacity: 1; }
+}

@@ -1,0 +1,179 @@
+---
+// Lima gambar teknik (SVG buatan sendiri) untuk lima layanan. Skema, bukan skala.
+interface Props {
+  nama: 'perbaikan' | 'perkuatan' | 'injeksi' | 'waterproofing' | 'inspeksi';
+  judul: string;
+}
+const { nama, judul } = Astro.props;
+---
+
+<svg viewBox="0 0 480 340" role="img" aria-label={judul} class="w-full">
+  {
+    nama === 'perbaikan' && (
+      <>
+        <rect x="40" y="70" width="400" height="230" fill="url(#p-beton)" class="stroke-semen" stroke-width="2" />
+        <path d="M70 70H250L262 100L248 132L215 158L160 168L110 150L78 118Z" class="fill-beton-dalam" />
+        <path d="M70 70H250L262 100L248 132L215 158L160 168L110 150L78 118Z" fill="url(#p-resin)" class="stroke-resin" stroke-width="2.5" stroke-linejoin="round" />
+        <circle cx="150" cy="112" r="20" class="fill-beton-dalam" />
+        <circle cx="150" cy="112" r="16" fill="none" class="stroke-resin" stroke-width="1.8" stroke-dasharray="4 3" />
+        <circle cx="150" cy="112" r="9" class="fill-beton-dalam stroke-semen" stroke-width="2.5" />
+        <path d="M336 70H368L352 104Z" fill="url(#p-resin)" class="stroke-resin" stroke-width="2" stroke-linejoin="round" />
+        <path d="M352 104L347 140L355 182L349 232" fill="none" class="stroke-semen" stroke-width="1.6" />
+        <g fill="none" class="stroke-kabut" stroke-width="1.2">
+          <path d="M150 121H300M160 168H300" stroke-dasharray="3 3" />
+          <path d="M292 122V168" class="stroke-semen" stroke-width="1.6" />
+        </g>
+        <path d="M292 122l-4 9h8zM292 168l-4-9h8z" class="fill-semen" />
+        <rect x="300" y="134" width="84" height="24" class="fill-beton-dalam" />
+        <g style="font:600 15px var(--font-sans)" class="fill-semen">
+          <text x="306" y="151">± 20 mm</text>
+          <text x="44" y="26">mortar perbaikan</text>
+          <text x="170" y="54">tulangan + primer anti-karat</text>
+          <text x="336" y="26">alur V + sealant</text>
+          <text x="44" y="326">beton sehat</text>
+        </g>
+        <g fill="none" class="stroke-kabut" stroke-width="1.2">
+          <path d="M100 32L120 90M200 60L162 104M380 32L356 84M100 312L110 276" />
+        </g>
+      </>
+    )
+  }
+  {
+    nama === 'perkuatan' && (
+      <>
+        <rect x="140" y="55" width="200" height="200" rx="16" fill="none" class="stroke-resin" stroke-width="8" />
+        <rect x="152" y="67" width="176" height="176" rx="6" fill="url(#p-beton)" class="stroke-semen" stroke-width="1.5" />
+        <rect x="178" y="93" width="124" height="124" rx="5" fill="none" class="stroke-semen" stroke-width="2.5" />
+        <g class="fill-beton-dalam stroke-semen" stroke-width="2">
+          <circle cx="188" cy="103" r="9" /><circle cx="292" cy="103" r="9" />
+          <circle cx="188" cy="207" r="9" /><circle cx="292" cy="207" r="9" />
+        </g>
+        <g fill="none" class="stroke-resin" stroke-width="2.4">
+          <path d="M240 24V44M234 38l6 8 6-8" />
+          <path d="M240 288V268M234 274l6-8 6 8" />
+          <path d="M112 155H132M126 149l8 6-8 6" />
+          <path d="M368 155H348M354 149l-8 6 8 6" />
+        </g>
+        <g style="font:600 15px var(--font-sans)" class="fill-semen">
+          <text x="368" y="72">lembar CFRP</text>
+          <text x="368" y="136">sengkang</text>
+          <text x="368" y="240">tulangan utama</text>
+          <text x="10" y="40">sudut dibulatkan</text>
+          <text x="10" y="316">beton lama</text>
+          <text x="10" y="158">tekanan</text>
+          <text x="10" y="174">kekang</text>
+        </g>
+        <g fill="none" class="stroke-kabut" stroke-width="1.2">
+          <path d="M338 66L364 68M302 130L364 132M300 212L364 236M60 46L146 62M60 312L170 226" />
+        </g>
+      </>
+    )
+  }
+  {
+    nama === 'injeksi' && (
+      <>
+        <g transform="translate(-24 0)">
+          <rect x="110" y="40" width="260" height="270" fill="url(#p-beton)" class="stroke-semen" stroke-width="2" />
+          <path d="M240 40L233 90L248 140L236 190L247 240L240 310" fill="none" class="stroke-resin" stroke-width="16" opacity="0.28" stroke-linejoin="round" />
+          <path d="M240 40L233 90L248 140L236 190L247 240L240 310" fill="none" class="stroke-semen" stroke-width="7" opacity="0.4" stroke-linejoin="round" />
+          <path d="M240 40L233 90L248 140L236 190L247 240L240 310" fill="none" class="stroke-beton-dalam" stroke-width="4" stroke-linejoin="round" />
+          <path d="M240 310L247 240L236 190L242 165" fill="none" class="stroke-resin" stroke-width="3.5" stroke-linejoin="round" />
+          <g class="fill-beton-dalam stroke-semen" stroke-width="2">
+            <circle cx="233" cy="90" r="10" /><circle cx="248" cy="140" r="10" /><circle cx="236" cy="190" r="10" />
+            <circle cx="247" cy="240" r="10" /><circle cx="241" cy="290" r="10" />
+          </g>
+          <g stroke="none">
+            <circle cx="233" cy="90" r="3.5" class="fill-kabut" /><circle cx="248" cy="140" r="3.5" class="fill-kabut" />
+            <circle cx="236" cy="190" r="3.5" class="fill-resin" /><circle cx="247" cy="240" r="3.5" class="fill-resin" /><circle cx="241" cy="290" r="3.5" class="fill-resin" />
+          </g>
+        </g>
+        <path d="M227 290C270 290 300 306 350 306" fill="none" class="stroke-semen" stroke-width="3" />
+        <path d="M350 294h50l14 12-14 12h-50z" class="fill-resin" />
+        <path d="M366 262V124" fill="none" class="stroke-resin" stroke-width="2.6" stroke-dasharray="7 5" />
+        <path d="M366 112l-7 14h14z" class="fill-resin" />
+        <g style="font:600 15px var(--font-sans)" class="fill-semen">
+          <text x="10" y="94">packer</text>
+          <text x="10" y="150">segel</text>
+          <text x="10" y="166">permukaan</text>
+          <text x="10" y="222">retak</text>
+          <text x="378" y="172">injeksi dari</text>
+          <text x="378" y="190">bawah ke atas</text>
+          <text x="350" y="336">pompa injeksi</text>
+        </g>
+        <g fill="none" class="stroke-kabut" stroke-width="1.2">
+          <path d="M56 90H197M84 158L212 147M46 218L208 209" />
+        </g>
+      </>
+    )
+  }
+  {
+    nama === 'waterproofing' && (
+      <>
+        <rect x="40" y="210" width="290" height="100" fill="url(#p-beton)" class="stroke-semen" stroke-width="2" />
+        <path d="M230 210L224 245L234 275L228 310" fill="none" class="stroke-beton-dalam" stroke-width="3.5" />
+        <rect x="40" y="200" width="290" height="10" class="fill-semen" opacity="0.55" />
+        <rect x="40" y="176" width="290" height="24" class="fill-resin" />
+        <path d="M40 188H330" fill="none" class="stroke-beton-dalam" stroke-width="1.4" stroke-dasharray="7 4" />
+        <rect x="40" y="136" width="290" height="40" class="fill-semen stroke-semen" fill-opacity="0.14" stroke-width="1.5" />
+        <g class="fill-semen">
+          <path d="M75 44c5 8 8 13 0 18-8-5-5-10 0-18zM135 74c5 8 8 13 0 18-8-5-5-10 0-18zM195 40c5 8 8 13 0 18-8-5-5-10 0-18zM265 70c5 8 8 13 0 18-8-5-5-10 0-18z" />
+        </g>
+        <g fill="none" class="stroke-semen" stroke-width="1.6" stroke-dasharray="4 5">
+          <path d="M75 68V128M135 98V128M195 64V128M265 94V128" />
+        </g>
+        <path d="M230 142V170M218 174H242" fill="none" class="stroke-resin" stroke-width="3" />
+        <g style="font:600 15px var(--font-sans)" class="fill-semen">
+          <text x="342" y="160">screed pelindung</text>
+          <text x="342" y="186">membran cair</text>
+          <text x="342" y="204">+ kain penguat</text>
+          <text x="342" y="230">primer</text>
+          <text x="342" y="268">beton dak</text>
+          <text x="286" y="58">air hujan</text>
+          <text x="244" y="162">tertahan</text>
+        </g>
+        <g fill="none" class="stroke-kabut" stroke-width="1.2">
+          <path d="M330 156H338M330 190H338M330 205L338 226M330 262H338" />
+        </g>
+      </>
+    )
+  }
+  {
+    nama === 'inspeksi' && (
+      <>
+        <rect x="40" y="44" width="400" height="186" class="fill-semen stroke-semen" fill-opacity="0.07" stroke-width="2" />
+        <path d="M140 44V230M240 44V230M340 44V230M40 106H440M40 168H440" fill="none" class="stroke-kabut" stroke-width="1" stroke-dasharray="4 4" />
+        <path d="M40 60L120 96L160 132L250 152L300 190L440 206" fill="none" class="stroke-beton-dalam" stroke-width="7" stroke-linejoin="round" />
+        <path d="M40 60L120 96L160 132L250 152L300 190L440 206" fill="none" class="stroke-semen" stroke-width="2.6" stroke-linejoin="round" />
+        <g class="fill-beton-dalam stroke-semen" stroke-width="2">
+          <circle cx="90" cy="75" r="11" /><circle cx="190" cy="75" r="11" /><circle cx="290" cy="75" r="11" /><circle cx="390" cy="75" r="11" />
+          <circle cx="90" cy="137" r="11" /><circle cx="190" cy="137" r="11" /><circle cx="290" cy="137" r="11" /><circle cx="390" cy="137" r="11" />
+          <circle cx="90" cy="199" r="11" /><circle cx="190" cy="199" r="11" /><circle cx="290" cy="199" r="11" /><circle cx="390" cy="199" r="11" />
+        </g>
+        <g style="font:600 12px var(--font-sans)" class="fill-semen" text-anchor="middle">
+          <text x="90" y="79">1</text><text x="190" y="79">2</text><text x="290" y="79">3</text><text x="390" y="79">4</text>
+          <text x="90" y="141">5</text><text x="190" y="141">6</text><text x="290" y="141">7</text><text x="390" y="141">8</text>
+          <text x="90" y="203">9</text><text x="190" y="203">10</text><text x="290" y="203">11</text><text x="390" y="203">12</text>
+        </g>
+        <g class="fill-semen stroke-beton-dalam" stroke-width="2">
+          <path d="M100 100h52v22h-52z" /><path d="M300 172h52v22h-52z" />
+        </g>
+        <g style="font:900 16px var(--font-stensil)" class="fill-beton-dalam">
+          <text x="107" y="117">R-01</text><text x="307" y="189">R-02</text>
+        </g>
+        <rect x="40" y="252" width="400" height="76" class="fill-semen" />
+        <g class="fill-beton-dalam">
+          <rect x="72" y="262" width="2" height="30" /><rect x="138.5" y="262" width="3" height="30" /><rect x="204.8" y="262" width="4.5" height="30" />
+          <rect x="269.7" y="262" width="6.5" height="30" /><rect x="335.5" y="262" width="9" height="30" /><rect x="401" y="262" width="12" height="30" />
+        </g>
+        <g style="font:600 13px var(--font-sans)" class="fill-beton-dalam" text-anchor="middle">
+          <text x="73" y="308">0,1</text><text x="140" y="308">0,2</text><text x="207" y="308">0,3</text>
+          <text x="273" y="308">0,5</text><text x="340" y="308">0,8</text><text x="407" y="308">1,0</text>
+        </g>
+        <g style="font:600 15px var(--font-sans)" class="fill-semen">
+          <text x="40" y="30">titik uji rebound hammer</text>
+          <text x="440" y="246" text-anchor="end">kartu retak, lebar dalam mm (skema)</text>
+        </g>
+      </>
+    )
+  }
+</svg>

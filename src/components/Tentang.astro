@@ -1,0 +1,66 @@
+---
+import Bab from './Bab.astro';
+import Kerusakan from './Kerusakan.astro';
+import { visi, misi } from '../data/site';
+
+const tahap = [
+  { judul: 'Retak 0,3 mm', isi: 'Selebar tiga helai rambut. Belum ada yang tampak salah.' },
+  { judul: 'Air dan garam masuk', isi: 'Lembap dan klorida pesisir merambat lewat retak sampai ke tulangan.' },
+  { judul: 'Tulangan berkarat', isi: 'Karat memuai 2–6 kali volume baja dan mendorong beton dari dalam.' },
+  { judul: 'Beton mengelupas', isi: 'Selimut beton lepas, tulangan terbuka, karat makin cepat.' },
+  { judul: 'Disuntik di tahap 1 atau 2', isi: 'Jalan masuknya ditutup sebelum bajanya sempat berkarat.' },
+] as const;
+---
+
+<Bab id="tentang" seed={2} tema="semen">
+  <h2 class="tipe-judul">Kota semen. Beton yang mulai lelah.</h2>
+
+  <div class="mt-14 grid gap-x-12 gap-y-6 md:mt-20 lg:grid-cols-2">
+    <p class="max-w-[58ch]">
+      Pabrik, gudang, dermaga, tangki, dan jalan lingkungan di Gresik hampir seluruhnya beton, dan bekerja di udara
+      pesisir yang lembap dan berkadar garam. Angka 0,3 mm, kira-kira tiga helai rambut, dipakai ACI 224R sebagai batas
+      lebar retak untuk beton di lingkungan lembap. Lewat dari itu, air dan klorida makin mudah mencapai tulangan.
+    </p>
+    <p class="max-w-[58ch]">
+      Pemilik bangunan biasanya hanya melihat dua pilihan: membiarkan, atau membongkar. CV Muria Struktura Teknik
+      berdiri di Gresik pada 2025 untuk pilihan ketiga, memperbaiki yang sudah berdiri, pada proyek kecil sampai besar.
+      Aturan kami sama di semuanya: retak dipetakan sebelum dibor, resin dicatat sesudah disuntik.
+    </p>
+  </div>
+
+  <h3 class="mt-20 font-display text-4xl font-bold leading-none md:mt-28">Dari retak sehalus rambut sampai beton mengelupas</h3>
+  <ol class="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 xl:grid-cols-5">
+    {
+      tahap.map((t, i) => (
+        <li class="flex flex-col">
+          <Kerusakan tahap={(i + 1) as 1 | 2 | 3 | 4 | 5} judul={t.judul} />
+          <h4 class="mt-3 font-display text-2xl font-bold leading-none">
+            <span class="mr-2 inline-grid size-7 place-items-center bg-beton-tua text-lg text-semen">{i + 1}</span>
+            {t.judul}
+          </h4>
+          <p class="mt-2 text-kecil">{t.isi}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="mt-24 grid gap-x-12 gap-y-14 lg:mt-32 lg:grid-cols-12">
+    <div class="potong bg-beton-tua p-8 text-semen md:p-12 lg:col-span-6 lg:self-start">
+      <h3 class="font-display text-3xl font-extrabold">Visi</h3>
+      <p class="mt-4 font-display text-[clamp(1.75rem,3vw,2.75rem)] font-bold leading-[1.08]">{visi}</p>
+    </div>
+    <div class="lg:col-span-6">
+      <h3 class="font-display text-3xl font-extrabold">Misi</h3>
+      <ul class="mt-4 border-t-4 border-beton-tua">
+        {
+          misi.map((m) => (
+            <li class="border-b border-beton-tua/40 py-5">
+              <p class="font-display text-3xl font-bold leading-none">{m.judul}</p>
+              <p class="mt-2 max-w-[52ch]">{m.isi}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</Bab>

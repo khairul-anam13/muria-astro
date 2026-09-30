@@ -1,0 +1,58 @@
+---
+// Pembungkus bagian: permukaan bertekstur + tepi atas berupa patahan dengan garis resin.
+import { patahan } from '../lib/retak';
+
+interface Props {
+  id: string;
+  seed: number;
+  tema: 'terang' | 'semen' | 'gelap' | 'resin' | 'dalam';
+  rapat?: boolean;
+  garis?: boolean;
+  class?: string;
+}
+const { id, seed, tema, garis = true, rapat = false, class: kelas = '' } = Astro.props;
+
+const p = patahan(seed);
+const klip = `polygon(${p.map(([x, f]) => `${x.toFixed(1)}% calc(var(--amp) * ${f.toFixed(2)})`).join(',')},100% 100%,0 100%)`;
+const titik = p.map(([x, f]) => `${(x * 10).toFixed(0)},${(f * 100).toFixed(0)}`).join(' ');
+const permukaan = {
+  terang: 'bg-beton text-beton-tua',
+  semen: 'bg-semen text-beton-tua',
+  gelap: 'bg-beton-tua text-semen',
+  resin: 'bg-resin text-beton-dalam',
+  dalam: 'bg-beton-dalam text-semen',
+}[tema];
+---
+
+<section
+  id={id}
+  data-gelap={tema === 'gelap' || tema === 'dalam' ? '' : undefined}
+  class:list={[
+    tema === 'resin' ? 'tekstur-halus' : 'tekstur',
+    'relative mt-[calc(var(--amp)*-1)] pt-[calc(var(--amp)+4.5rem)] md:pt-[calc(var(--amp)+7rem)]',
+    rapat ? 'pb-10 md:pb-12' : 'pb-24 md:pb-36',
+    permukaan,
+    kelas,
+  ]}
+  style={`clip-path:${klip}`}
+>
+  {
+    garis && (
+      <svg
+        class="pointer-events-none absolute inset-x-0 top-[3px] h-(--amp) w-full"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <polyline
+          points={titik}
+          fill="none"
+          stroke-width="3"
+          vector-effect="non-scaling-stroke"
+          style="stroke:var(--color-resin)"
+        />
+      </svg>
+    )
+  }
+  <div class="mx-auto max-w-[1600px] px-(--gutter)"><slot /></div>
+</section>

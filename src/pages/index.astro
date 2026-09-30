@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Tentang from '../components/Tentang.astro';
+import Layanan from '../components/Layanan.astro';
+import Metode from '../components/Metode.astro';
+import Keunggulan from '../components/Keunggulan.astro';
+import Testimoni from '../components/Testimoni.astro';
+import BadanUsaha from '../components/BadanUsaha.astro';
+import Lokasi from '../components/Lokasi.astro';
+import Kontak from '../components/Kontak.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  judul="CV Muria Struktura Teknik | Perbaikan beton retak di Gresik"
+  deskripsi="Perbaikan beton retak, patah, dan rusak di Gresik dan Jawa Timur: injeksi epoxy, grouting, perkuatan struktur, waterproofing, dan inspeksi. Retak dipetakan, resin dibukukan per liter."
+>
+  <Nav />
+  <main id="isi">
+    <Hero />
+    <Tentang />
+    <Layanan />
+    <Metode />
+    <Keunggulan />
+    <Testimoni />
+    <BadanUsaha />
+    <Lokasi />
+    <Kontak />
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,53 @@
+---
+import Bab from './Bab.astro';
+import { testimoni } from '../data/site';
+
+const adaContoh = testimoni.some((t) => t.contoh);
+const [utama, ...lain] = testimoni;
+---
+
+<Bab id="testimoni" seed={6} tema="semen">
+  <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
+    <h2 class="tipe-bab">Setelah serah terima</h2>
+    {
+      adaContoh && (
+        <p class="rotate-[-3deg] border-4 border-beton-tua px-4 py-2 font-display text-3xl font-extrabold uppercase leading-none">
+          Contoh isi
+          <span class="mt-1 block font-sans text-base font-semibold normal-case">Ganti dengan kutipan klien asli</span>
+        </p>
+      )
+    }
+  </div>
+
+  <div class="mt-12 grid gap-x-16 gap-y-16 md:mt-16 lg:grid-cols-12">
+    <figure class="lg:col-span-7">
+      <blockquote class="font-display text-[clamp(1.9rem,3.6vw,3.25rem)] font-semibold leading-[1.06]">
+        “{utama.kutip}”
+      </blockquote>
+      <figcaption class="mt-8 flex items-start gap-4">
+        <span class="potong shrink-0 bg-beton-tua px-3 py-2 font-stensil text-2xl font-black leading-none text-semen">{utama.id}</span>
+        <span>
+          <span class="block font-semibold">{utama.siapa}, {utama.tempat}</span>
+          <span class="block text-kecil">{utama.pekerjaan}</span>
+        </span>
+      </figcaption>
+    </figure>
+
+    <div class="grid gap-14 lg:col-span-5">
+      {
+        lain.map((t) => (
+          <figure class="border-t-4 border-beton-tua pt-6">
+            <blockquote class="font-display text-[clamp(1.4rem,2.1vw,1.9rem)] font-semibold leading-[1.1]">“{t.kutip}”</blockquote>
+            <figcaption class="mt-5 flex items-start gap-4">
+              <span class="potong shrink-0 bg-beton-tua px-3 py-2 font-stensil text-xl font-black leading-none text-semen">{t.id}</span>
+              <span>
+                <span class="block font-semibold">{t.siapa}, {t.tempat}</span>
+                <span class="block text-kecil">{t.pekerjaan}</span>
+              </span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</Bab>
